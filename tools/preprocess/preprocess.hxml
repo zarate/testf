@@ -1,0 +1,4 @@
+-neko bin/preprocess.n
+-lib xapi
+-cp src/
+-main Main.hx

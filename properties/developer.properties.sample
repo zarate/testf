@@ -1,0 +1,28 @@
+# These are the default properties for the build file.
+# The build file will fall back to these if there is no developer.properties file.
+
+############# MANDATORY #############
+
+# The root directory of the Flex SDK. This path will be used to find compiler binaries, framework libraries
+# and anything else Flex related.
+FLEX_HOME=/home/flex
+
+# The path to the preprocess binary. All the binaries are in tools/preprocess/bin/*
+# Pick up the one that is right for your OS (including .exe for Windows)
+preprocess.bin=tools/preprocess/bin/preprocess-linux
+
+############# OPTIONAL #############
+
+# This is the certifcate needed to sign AIR applications. Please note that
+# you MUST create your own certificate with your own password ONLY IF you want to
+# recompile the AIR or the APK installers.
+adl.cert=docs/cert/testfcert.pfx
+
+# Password for the AIR certificate
+adl.cert.password=OfCourseThisIsNotTheRealPassword!
+
+# Generated AIR binary
+air.installer=docs/testf.air
+
+# Generated Android binary
+android.installer=docs/testf.apk

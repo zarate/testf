@@ -1,0 +1,8 @@
+Some TODO items, in no particular order:
+
+* Warn the user if is using a debug version of the player, has a noticeable impact.
+* Reporting:
+	* Test results
+	* Technical device info that is not privacy related (ie: no IMEI, phone number, etc)
+* Documentation.
+* Being able to load an external SWF and run tests compiled in it (so people can easily extend the tests)

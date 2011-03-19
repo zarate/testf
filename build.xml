@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="utf-8"?>
+<project name="TestF" default="compile-swf-debug" basedir=".">
+	
+	<!-- 
+	You can also call ant passing a parameter so the tests.xml is recreated:
+	ant -DxmlOutput=true 
+	-->
+	
+	<!-- Property files -->
+	<property file="properties/developer.properties" />
+	<property file="properties/default.properties" />
+	
+	<!-- Paths and vars -->
+	<property name="src.classpath" value="src" />
+	<property name="pre.src.classpath" value="build/src" />
+	<property name="stats.classpath" value="lib/stats" />
+	<property name="signals.classpath" value="lib/signals/0.8/src" />
+	<property name="document.root" value="${pre.src.classpath}/TestF.as" />
+	<property name="tests.folder" value="${pre.src.classpath}/test" />
+	<property name="output.folder" value="build/bin" />
+	<property name="tests.xml" value="${output.folder}/tests.xml"/>
+	<property name="swf.output" value="${output.folder}/testf.swf" />
+	<property name="swf.size" value="500 500" />
+	<property name="swf.framerate" value="50" />
+	<property name="swf.color" value="0xffffff" />
+	<property name="swf.version" value="10.1" />
+	<property name="air.descriptor" value="testf-descriptor.xml"></property>
+	
+	<target name="compile-all">
+		<antcall target="compile-swf-release" />
+		<antcall target="compile-android" />
+		<antcall target="compile-air" />
+	</target>
+	
+	<target name="compile-swf-debug">
+		<antcall target="preprocess"/>
+		<antcall target="compile-swf">
+			<param name="swf.debug" value="-debug" />
+		</antcall>
+	</target>
+	
+    <target name="compile-swf-release">
+		<antcall target="preprocess"/>
+		<antcall target="compile-swf">
+			<param name="swf.debug" value="" />
+		</antcall>
+    </target>
+	
+	<target name="preprocess">
+		<exec executable="${preprocess.bin}" failonerror="true">
+			<arg line="${src.classpath}" />
+			<arg line="${pre.src.classpath}" />
+			<arg line="${tests.folder}"/>
+			<arg line="${tests.xml}"/>
+			<arg line="${document.root}" />
+			<arg line="${xmlOutput}" />
+		</exec>
+	</target>
+	
+	<target name="compile-swf" >
+		<exec executable="${FLEX_HOME}/bin/mxmlc" failonerror="true">
+			<arg line="${document.root}" />
+			<arg line="-static-rsls"/>
+			<arg line="${swf.debug}"/>
+			<arg line="-o ${swf.output}" />
+			<arg line="-default-size ${swf.size}" />
+			<arg line="-default-frame-rate ${swf.framerate}" />
+			<arg line="-default-background-color ${swf.color}" />
+			<arg line="-sp ${pre.src.classpath}" />
+			<arg line="-sp ${stats.classpath}" />
+			<arg line="-sp ${signals.classpath}" />
+			<arg line="-library-path ${FLEX_HOME}/frameworks/libs" />
+			<arg line="-library-path ${FLEX_HOME}/frameworks/libs/air/airglobal.swc" />
+			<arg line="-target-player ${swf.version}" />
+		</exec>
+	</target>
+	
+	<target name="compile-android">
+		<exec executable="${FLEX_HOME}/bin/adt" failonerror="true">
+			<arg line="-package" />
+			<arg line="-target apk" />
+			<arg line="-storetype pkcs12" />
+			<arg line="-keystore ${adl.cert}"/>
+			<arg line="-storepass ${adl.cert.password}"/>
+			<arg line="${android.installer}"/>
+			<arg line="${air.descriptor}"/>
+			<arg line="${swf.output}"/>
+			<arg line="${tests.xml}"/>
+		</exec>
+	</target>
+	
+	<target name="compile-air">
+		<!-- Please note that you cannot compile an AIR file if you are off line 
+		You need an internet connection so ADL can contact geotrust.com-->
+		<exec executable="${FLEX_HOME}/bin/adt" failonerror="true">
+			<arg line="-package"/>
+			<arg line="-storetype pkcs12" />
+			<arg line="-keystore ${adl.cert}"/>
+			<arg line="-storepass ${adl.cert.password}"/>
+			<arg line="${air.installer}"/>
+			<arg line="${air.descriptor}"/>
+			<arg line="${swf.output}"/>
+			<arg line="${tests.xml}"/>
+		</exec>
+	</target>
+	
+</project>

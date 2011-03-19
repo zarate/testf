@@ -1,0 +1,4 @@
+-neko release.n
+-main Release.hx
+-cp src
+-lib xapi
