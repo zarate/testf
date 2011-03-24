@@ -23,7 +23,7 @@
 	<property name="swf.size" value="500 500" />
 	<property name="swf.framerate" value="50" />
 	<property name="swf.color" value="0xffffff" />
-	<property name="swf.version" value="10.1" />
+	<property name="swf.version" value="10.2" />
 	<property name="air.descriptor" value="testf-descriptor.xml"></property>
 	
 	<target name="compile-all">

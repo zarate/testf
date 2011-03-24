@@ -1,6 +1,6 @@
 Welcome to TestF!
 
-TestF is a benchmark for Flash devices running FlashPlayer >= 10.1.
+TestF is a benchmark for Flash devices running FlashPlayer >= 10.2
 
 ** Running the benchmark
 
@@ -11,6 +11,8 @@ b) Run an AIR file.
 c) Run an APK file (Android devices)
 
 ** Compiling the benchmark
+
+Requires Flex 4.5 (from Labs) and AIR 2.6
 
 If you want to add more tests or make some modifications, you are going to need to recompile. 
 
