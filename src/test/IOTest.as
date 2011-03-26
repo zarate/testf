@@ -56,7 +56,7 @@ package test
 			
 			endTime = getTimer();
 
-			result = humanReadableResult = "Creating " + TOTAL_ITERATIONS + " files took " + (endTime - initTime) + " ms";
+			humanReadableResult = "Creating " + TOTAL_ITERATIONS + " files took " + (endTime - initTime) + " ms";
 			
 			_finishedSignal.dispatch(this);
 		}

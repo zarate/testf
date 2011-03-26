@@ -38,7 +38,7 @@ package test
 			
 			endTime = getTimer();
 
-			result = humanReadableResult = "Adding " + TOTAL_ITERATIONS + " numbers took " + (endTime - initTime) + " ms";
+			humanReadableResult = "Adding " + TOTAL_ITERATIONS + " numbers took " + (endTime - initTime) + " ms";
 			
 			_finishedSignal.dispatch(this);
 		}
