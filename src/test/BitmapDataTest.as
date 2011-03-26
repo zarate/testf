@@ -78,7 +78,8 @@ package test
 		
 		override protected function stop() : void
 		{
-			result += "Total pixels: " + currentPixels;
+			result = currentPixels.toString();
+			humanReadableResult = "Total pixels drawn: " + result;
 			
 			super.stop();
 		}

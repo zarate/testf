@@ -1,6 +1,5 @@
 package test.common
 {
-
 	import org.osflash.signals.Signal;
 
 	import flash.display.Sprite;
@@ -18,10 +17,16 @@ package test.common
 	public class Test extends Sprite implements ITest
 	{
 		/**
-		 * Holds the result of the test as a String. Extending
+		 * Holds the machine ready result of the test. Extending
 		 * classes should update it as required.
 		 */
 		protected var result : String = "";
+		
+		/**
+		 * Holds the humand readable result of the test, as a String. Extending
+		 * classes should update it as required.
+		 */
+		protected var humanReadableResult : String = "";
 		
 		/**
 		 * Time in milliseconds at which the test started.
@@ -57,7 +62,7 @@ package test.common
 			// if there's no result, then pass the time as the result
 			const r : String = (result == "")? t.toString() : result;
 			
-			return new TestResult(getName(), t, r);
+			return new TestResult(getName(), t, r, humanReadableResult);
 		}
 
 		/**

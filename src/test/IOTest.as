@@ -5,6 +5,7 @@ package test
 	import flash.filesystem.File;
 	import flash.filesystem.FileMode;
 	import flash.filesystem.FileStream;
+	import flash.utils.getTimer;
 
 	/**
 	 * @author Juan Delgado
@@ -38,6 +39,7 @@ package test
 				
 				var readStream : FileStream = new FileStream();
 				readStream.open(file, FileMode.READ);
+				
 				var content : String = readStream.readUTFBytes(readStream.bytesAvailable);
 				readStream.close();
 				
@@ -45,6 +47,18 @@ package test
 			}
 						
 			stop();
+		}
+
+		override protected function stop() : void
+		{
+			// Overriding stop here so I can add the end time as part of the human
+			// readable result before dispatching the _finishedSignal signal.
+			
+			endTime = getTimer();
+
+			result = humanReadableResult = "Creating " + TOTAL_ITERATIONS + " files took " + (endTime - initTime) + " ms";
+			
+			_finishedSignal.dispatch(this);
 		}
 	}
 }

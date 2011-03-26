@@ -185,8 +185,10 @@ package
 			
 			for each(var result : TestResult in results)
 			{
+				const humanReadableResult : String = (result.humanReadableResult != "") ? result.humanReadableResult : result.result; 
+				
 				log("***** " + result.name + " (" + result.time + "ms) *****\n");
-				log(result.result);
+				log(humanReadableResult);
 				log("\n");
 			}
 			

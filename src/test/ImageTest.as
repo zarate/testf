@@ -58,7 +58,8 @@ package test
 			timer.removeEventListener(TimerEvent.TIMER, addImages);
 			timer = null;
 			
-			result += "" + images.length;
+			result = images.length.toString();
+			humanReadableResult = "Total images drawn: " + result;
 			
 			images = null;
 			

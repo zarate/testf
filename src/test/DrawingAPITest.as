@@ -57,7 +57,8 @@ package test
 			timer.removeEventListener(TimerEvent.TIMER, addCircles);
 			timer = null;
 			
-			result += "Total circles: " + circles.length;
+			result = circles.length.toString();
+			humanReadableResult = "Total circles drawn: " + result;
 			
 			circles = null;
 			
