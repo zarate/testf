@@ -1,7 +1,9 @@
 package
 {
-
 	import net.hires.debug.Stats;
+
+	import nl.funkymonkey.android.deviceinfo.NativeDeviceInfo;
+	import nl.funkymonkey.android.deviceinfo.NativeDeviceProperties;
 
 	import test.common.ITest;
 	import test.common.TestResult;
@@ -217,6 +219,21 @@ package
 			}
 			
 			variables.version = VERSION;
+			
+			variables.manufacturer = "xx";
+			variables.model = "xx";
+			
+			try
+			{
+				NativeDeviceInfo.parse();
+	
+				variables.manufacturer = NativeDeviceProperties.PRODUCT_MANUFACTURER.value;
+				variables.model = NativeDeviceProperties.PRODUCT_MODEL.value;
+			}
+			catch(e : Error)
+			{
+				log("Cannot find manufacturer and model \n");
+			}
 			
 			var request : URLRequest = new URLRequest(resultsGateway);
 			request.method = URLRequestMethod.POST;
