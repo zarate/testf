@@ -52,7 +52,12 @@ package test.common
 		 */		
 		public function getResult() : TestResult
 		{
-			return new TestResult(getName(), endTime - initTime, result);
+			const t : int = endTime - initTime;
+			
+			// if there's no result, then pass the time as the result
+			const r : String = (result == "")? t.toString() : result;
+			
+			return new TestResult(getName(), t, r);
 		}
 
 		/**
