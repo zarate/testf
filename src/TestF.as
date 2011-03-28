@@ -1,5 +1,6 @@
 package
 {
+
 	import net.hires.debug.Stats;
 
 	import nl.funkymonkey.android.deviceinfo.NativeDeviceInfo;
@@ -17,12 +18,14 @@ package
 	import flash.display.StageScaleMode;
 	import flash.events.Event;
 	import flash.events.IOErrorEvent;
+	import flash.events.KeyboardEvent;
 	import flash.events.TimerEvent;
 	import flash.net.URLLoader;
 	import flash.net.URLLoaderDataFormat;
 	import flash.net.URLRequest;
 	import flash.net.URLRequestMethod;
 	import flash.net.URLVariables;
+	import flash.ui.Keyboard;
 	import flash.utils.Timer;
 	import flash.utils.getDefinitionByName;
 
@@ -62,13 +65,21 @@ package
 		{
 			super();
 			
+			addEventListener(Event.ADDED_TO_STAGE, addedToStage);
+		}
+
+		private function addedToStage(event : Event) : void
+		{
+			removeEventListener(Event.ADDED_TO_STAGE, addedToStage);
+			
 			stage.align = StageAlign.TOP_LEFT;
 			stage.scaleMode = StageScaleMode.NO_SCALE;
 			
 			logField = new LogField();
 			addChild(logField);
 			
-			logField.x = (stage.stageWidth - logField.width) >> 1;			logField.y = (stage.stageHeight - logField.height) >> 1;
+			logField.x = (stage.stageWidth - logField.width) >> 1;
+			logField.y = (stage.stageHeight - logField.height) >> 1;
 
 			log("Welcome to TestF (v" + VERSION + ")\n");
 			log("This log field goes away when tests start and comes back when they finish.\n");
@@ -77,6 +88,8 @@ package
 
 			testsXml = (flashVars["fv_testsXml"] != null) ? flashVars["fv_testsXml"] : DEFAULT_TESTS_XML;
 			resultsGateway = (flashVars["fv_resultsGateway"] != null) ? flashVars["fv_resultsGateway"] : RESULTS_GATEWAY;
+			
+			stage.addEventListener(KeyboardEvent.KEY_DOWN, keyDown);
 			
 			loadTests();
 		}
@@ -244,6 +257,22 @@ package
 			var loader : URLLoader = new URLLoader();
 			loader.dataFormat = URLLoaderDataFormat.VARIABLES;
 			loader.load(request);
+		}
+
+		private function keyDown(event : KeyboardEvent) : void
+		{
+			switch(event.keyCode)
+			{
+				case Keyboard.DOWN:
+				
+					logField.scrollDown();
+					break;
+					
+				case Keyboard.UP:
+					
+					logField.scrollUp();
+					break;
+			}
 		}
 
 		private function log(text : String) : void

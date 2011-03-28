@@ -33,6 +33,16 @@ package ui
 			field.scrollV = field.maxScrollV;
 		}
 		
+		public function scrollUp(event : MouseEvent = null) : void
+		{
+			field.scrollV -= 2;
+		}
+
+		public function scrollDown(event : MouseEvent = null) : void
+		{
+			field.scrollV += 2;
+		}
+		
 		private function removedFromStage(event : Event) : void
 		{
 			removeEventListener(Event.ADDED_TO_STAGE, addedToStage);
@@ -74,16 +84,6 @@ package ui
 			addChild(scrollUpButton);			addChild(scrollDownButton);
 		}
 
-		private function scrollUp(event : MouseEvent) : void
-		{
-			field.scrollV -= 2;
-		}
-
-		private function scrollDown(event : MouseEvent) : void
-		{
-			field.scrollV += 2;
-		}
-		
 		[Embed(source="../assets/fonts/GenBasR.ttf", fontFamily="GentiumBasic", embedAsCFF="false", mimeType="application/x-font")]
 		private var c4Regular : Class;
 	}
