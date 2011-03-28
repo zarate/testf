@@ -2,8 +2,11 @@
 <project name="TestF" default="compile-swf-debug" basedir=".">
 	
 	<!-- Property files -->
-	<property file="properties/developer.properties" />
-	<property file="properties/default.properties" />
+	<property name="properties.dev" value="properties/developer.properties"/>
+	<property name="properties.default" value="properties/default.properties"/>
+	
+	<property file="${properties.dev}" />
+	<property file="${properties.default}" />
 	
 	<!-- Paths and vars -->
 	<property name="src.classpath" value="src" />
@@ -20,8 +23,8 @@
 	<property name="swf.framerate" value="50" />
 	<property name="swf.color" value="0xffffff" />
 	<property name="swf.version" value="10.2" />
-	<property name="air.descriptor" value="testf-descriptor.xml"></property>
-	<property name="xmlOutput" value="true"></property>
+	<property name="air.descriptor" value="testf-descriptor.xml"/>
+	<property name="xmlOutput" value="true"/>
 	
 	<!-- 
 	You can override xmlOutput to prevent tests.xml being generated:
@@ -56,6 +59,8 @@
 			<arg line="${tests.xml}"/>
 			<arg line="${document.root}" />
 			<arg line="${xmlOutput}" />
+			<arg line="${properties.dev}" />
+			<arg line="${properties.default}" />
 		</exec>
 	</target>
 	

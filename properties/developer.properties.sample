@@ -3,8 +3,8 @@
 
 ############# MANDATORY #############
 
-# The root directory of the Flex SDK. This path will be used to find compiler binaries, framework libraries
-# and anything else Flex related.
+# The root directory of the Flex Sdk. This path will be used to find compiler binaries, framework libraries
+# and anything else flex related.
 FLEX_HOME=/home/flex
 
 # The path to the preprocess binary. All the binaries are in tools/preprocess/bin/*
@@ -12,6 +12,11 @@ FLEX_HOME=/home/flex
 preprocess.bin=tools/preprocess/bin/preprocess-linux
 
 ############# OPTIONAL #############
+
+# Defines the server side gateway where results are sent.
+# Leave empty if you don't want the results to be sent.
+# No personal information is *ever* sent, please read the Wiki for more info:
+results.gateway=http://testf.net/gateway/
 
 # This is the certifcate needed to sign AIR applications. Please note that
 # you MUST create your own certificate with your own password ONLY IF you want to

@@ -30,10 +30,17 @@ class Main
 		var testsXml = args[3];
 		var documentRoot = args[4];
 		var xmlOutput = (args[5] == "true");
+		var devProperties = args[6];
+		var defaultProperties = args[7];
 		
 		if(!xa.Folder.isFolder(srcFolder))
 		{
-			xa.Application.exitError("Cannot find src folder: " + srcFolder);
+			exit("Cannot find src folder: " + srcFolder);
+		}
+		
+		if(!xa.File.isFile(defaultProperties))
+		{
+			exit("Cannnot find defaultProperties: " + defaultProperties);
 		}
 		
 		var bits = preFolder.split(xa.System.getSeparator());
@@ -82,6 +89,20 @@ class Main
 		
 		testsXmlString += "</tests>";
 		
+		var gatewayUrl = getGatewayUrl(devProperties, defaultProperties);
+		
+		if(gatewayUrl == null)
+		{
+			gatewayUrl = "";
+			log("Cannot find results gateway, left empty");
+		}
+		else
+		{
+			log("Found gateway: " + gatewayUrl);
+		}
+		
+		forcedVars += "\t\tprivate static const RESULTS_GATEWAY : String = \"" + gatewayUrl + "\";";
+		
 		var template = new haxe.Template(xa.File.read(documentRoot));
 		
 		var output  = template.execute({forcedImports: forcedImports, forcedVars: forcedVars});
@@ -109,8 +130,73 @@ class Main
 		}
 	}
 	
+	private static function getGatewayUrl(devProperties : String, defaultProperties : String) : String
+	{
+		var gateway : String = null;
+	
+		var defaultGateway = getGatewayFromProps(defaultProperties);
+		
+		if(defaultGateway != null)
+		{
+			gateway = defaultGateway;
+		}
+		
+		var devGateway = null;
+		
+		if(devProperties != null)
+		{
+			devGateway = getGatewayFromProps(devProperties);
+		}
+		
+		if(devGateway != null)
+		{
+			gateway = devGateway;
+		}
+		
+		return gateway;
+	}
+	
+	private static function getGatewayFromProps(path : String) : String
+	{
+		var gateway : String = null;
+		var propsContent = xa.File.read(path).split("\n");
+		
+		for(i in 0...propsContent.length)
+		{
+			var line = propsContent[i];
+			
+			if(!StringTools.startsWith(line, "#"))
+			{
+				var bits = line.split("=");
+				
+				if(bits[0] == "results.gateway")
+				{
+					gateway = bits[1];
+					break;
+				}
+			}
+		}
+		
+		return gateway;
+	}
+	
 	private static function filter(path : String) : Bool
 	{
 		return xa.File.isFile(path);
+	}
+	
+	private static function exit(?txt : String) : Void
+	{
+		if(txt != null)
+		{
+			log(txt);
+		}
+		
+		xa.Application.exit(1);
+	}
+	
+	private static function log(txt : String) : Void
+	{
+		xa.Utils.print(txt);
 	}
 }

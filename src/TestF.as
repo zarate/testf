@@ -50,15 +50,16 @@ package
 		
 		private var countDown : int = 4;
 		
-		private const RESULTS_GATEWAY : String = ""; // TO BE DEFINED
-		
 		private const VERSION : String = "0.1";
 		
 		private const DEFAULT_TESTS_XML : String = "tests.xml";
 		
 		// Tests are defined in a XML, we need
-		// to force the compiler to compile these classes.
-		// See tools/preprocess for more info
+		// to force the compiler to compile the tests classes.
+		// Also RESULTS_GATEWAY is defined at compile time.
+		// See wiki for more info:
+		// TODO: create wiki!!
+		
 // ::forcedVars::
 		
 		public function TestF()
