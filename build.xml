@@ -1,11 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <project name="TestF" default="compile-swf-debug" basedir=".">
 	
-	<!-- 
-	You can also call ant passing a parameter so the tests.xml is recreated:
-	ant -DxmlOutput=true 
-	-->
-	
 	<!-- Property files -->
 	<property file="properties/developer.properties" />
 	<property file="properties/default.properties" />
@@ -26,6 +21,12 @@
 	<property name="swf.color" value="0xffffff" />
 	<property name="swf.version" value="10.2" />
 	<property name="air.descriptor" value="testf-descriptor.xml"></property>
+	<property name="xmlOutput" value="true"></property>
+	
+	<!-- 
+	You can override xmlOutput to prevent tests.xml being generated:
+	ant -DxmlOutput=false
+	-->
 	
 	<target name="compile-all">
 		<antcall target="compile-swf-release" />
