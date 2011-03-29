@@ -1,4 +1,4 @@
 .settings
 .project
 developer.properties
-build
+build/src

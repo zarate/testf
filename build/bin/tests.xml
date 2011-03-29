@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<tests>
+	<test>test.BitmapDataTest</test>
+	<test>test.ImageTest</test>
+	<test>test.MathTest</test>
+	<test>test.SystemTest</test>
+	<test>test.IOTest</test>
+	<test>test.DrawingAPITest</test>
+</tests>

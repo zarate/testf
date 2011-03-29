@@ -27,7 +27,7 @@ adl.cert=docs/cert/testfcert.pfx
 adl.cert.password=OfCourseThisIsNotTheRealPassword!
 
 # Generated AIR binary
-air.installer=docs/testf.air
+air.installer=build/bin/testf.air
 
 # Generated Android binary
-android.installer=docs/testf.apk
+android.installer=build/bin/testf.apk
