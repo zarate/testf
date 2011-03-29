@@ -1,0 +1,27 @@
+***** TO BE RELEASED
+
+* First version of XAPI for AIR!
+* API modification: xa.File.remove(), xa.Folder.remove() and xa.Folder.forceRemove() for consistency with AIR API where "delete" is a reserved keyword. Consequently xa.File.delete(), xa.Folder.delete() and xa.Folder.forceDelete() are deprecated now (will be completely removed in XAPI 0.5). 
+* haXe: File.isFile() and Folder.isFolder() would not return false any more when path is null (an exception is thrown). This is over protecting the developer and not consistent throughout XAPI. Nicolas was right all along: http://code.google.com/p/haxe/issues/detail?id=67
+* Fixed bug: xa.FileSystem.isHidden() was returning wrong results in Windows under specific circumstances. 
+* API modification, haXe: renamed 'include' parameter to 'copy' in Folder.copyByExtension() to be consistent with AIR API where 'include' *still* is a reserved keyword.
+* Refactoring, haXe: Folder.copy won't throw an exception any more if source path is not a folder or if destination already exists. Throwing exceptions is not consistent throughout XAPI, we'll let Neko do that job. 
+* API modification, haXe: Created new xa.filters package and IFilter interface to be consistent with AIR (no function signatures available) and also because it's a little bit cleaner (although less haXe-ish). 
+* API modification, haXe: Removed the binary methods in the File class as they don't add anything up.
+
+***** 7 / June / 2010: 0.3
+
+* XAPI now targets Neko, PHP and C++ backends automatically via typedefs and conditional compilation.
+* Fixed bug: xa.File.launch() method was modifying current working directory and not setting it back afterwards.
+* Fixed bug: xa.File.launch() wouldn't launch a file without extension.
+
+***** 21 / Feb / 2010: 0.2
+
+* Fixed bug: xa.Application.exitError() was printing to std out instead of std error. Thanks to Benjamin Dasnois for finding out the bug and the better solution.
+* API addition: xa.Process.success() returns true if exit code is 0, false otherwise.
+* xa.Process now reads stderr and stdout streams line by line to avoid problems with long streams. It also stores internally the exit code of the process in case it's being called more than once (for example indirectly via success() and then via exitCode()).
+* Better looking docs.
+
+***** 13 / Feb / 2010: 0.1
+
+Initial release!

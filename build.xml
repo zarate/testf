@@ -14,6 +14,7 @@
 	<property name="stats.classpath" value="lib/stats" />
 	<property name="signals.classpath" value="lib/signals/0.8/src" />
 	<property name="nativeinfo.classpath" value="lib/native-info/src" />
+	<property name="xapi.classpath" value="lib/xapi/src/air" />
 	<property name="document.root" value="${pre.src.classpath}/TestF.as" />
 	<property name="tests.folder" value="${pre.src.classpath}/test" />
 	<property name="output.folder" value="build/bin" />
@@ -77,6 +78,7 @@
 			<arg line="-sp ${stats.classpath}" />
 			<arg line="-sp ${signals.classpath}" />
 			<arg line="-sp ${nativeinfo.classpath}" />
+			<arg line="-sp ${xapi.classpath}" />
 			<arg line="-library-path ${FLEX_HOME}/frameworks/libs" />
 			<arg line="-library-path ${FLEX_HOME}/frameworks/libs/air/airglobal.swc" />
 			<arg line="-target-player ${swf.version}" />

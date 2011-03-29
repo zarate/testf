@@ -12,6 +12,9 @@ package
 
 	import ui.LogField;
 
+	import xa.File;
+	import xa.System;
+
 	import flash.display.LoaderInfo;
 	import flash.display.Sprite;
 	import flash.display.StageAlign;
@@ -20,6 +23,7 @@ package
 	import flash.events.IOErrorEvent;
 	import flash.events.KeyboardEvent;
 	import flash.events.TimerEvent;
+	import flash.filesystem.File;
 	import flash.net.URLLoader;
 	import flash.net.URLLoaderDataFormat;
 	import flash.net.URLRequest;
@@ -50,9 +54,15 @@ package
 		
 		private var countDown : int = 4;
 		
+		private const FV_TESTS_XML : String = "fv_testsXml";
+		
+		private const FV_RESULTS_GATEWAY : String = "fv_resultsGateway";
+		
 		private const VERSION : String = "0.1";
 		
 		private const DEFAULT_TESTS_XML : String = "tests.xml";
+		
+		private const FLASH_VARS_FILENAME : String = "flashvars.conf";
 		
 		// Tests are defined in a XML, we need
 		// to force the compiler to compile the tests classes.
@@ -85,14 +95,76 @@ package
 			log("Welcome to TestF (v" + VERSION + ")\n");
 			log("This log field goes away when tests start and comes back when they finish.\n");
 			
-			var flashVars : Object = LoaderInfo(root.loaderInfo).parameters;
-
-			testsXml = (flashVars["fv_testsXml"] != null) ? flashVars["fv_testsXml"] : DEFAULT_TESTS_XML;
-			resultsGateway = (flashVars["fv_resultsGateway"] != null) ? flashVars["fv_resultsGateway"] : RESULTS_GATEWAY;
+			readFlashVars();
 			
 			stage.addEventListener(KeyboardEvent.KEY_DOWN, keyDown);
 			
 			loadTests();
+		}
+
+		private function readFlashVars() : void
+		{
+			// First let's assign default values in case no FV are found
+			
+			testsXml = DEFAULT_TESTS_XML;
+			resultsGateway = RESULTS_GATEWAY;
+			
+			// Now let's try a flashvars.conf object in the SD card application storage directory first,
+			// then regular FlashVars in case that fails.
+			
+			try
+			{			
+				const flashVarsFilePath : String = flash.filesystem.File.applicationStorageDirectory.nativePath + xa.System.getSeparator() + FLASH_VARS_FILENAME;
+				
+				if(xa.File.isFile(flashVarsFilePath))
+				{
+					const fvLines : Array = xa.File.read(flashVarsFilePath).split("\n");
+					
+					for each(var line : String in fvLines)
+					{
+						if(line.charAt(0) != "#" && line.indexOf("=") != -1)
+						{
+							const bits : Array = line.split("=");
+							
+							switch(bits[0])
+							{
+								case FV_RESULTS_GATEWAY:
+								
+									resultsGateway = bits[1];
+									
+									log("Found gateway URL in local FlashVars: " + resultsGateway);
+									break;
+									
+								case FV_TESTS_XML:
+								
+									testsXml = bits[1];
+									
+									log("Found tests xml URL in local FlashVars: " + testsXml);
+									break;
+							}
+						}
+					}
+				}
+				else
+				{
+					log("No FlashVars file found");
+				}
+
+			}
+			catch(e : Error)
+			{
+				var flashVars : Object = LoaderInfo(root.loaderInfo).parameters;
+				
+				if(flashVars[FV_TESTS_XML] != null)
+				{
+					testsXml = flashVars[FV_TESTS_XML];
+				}
+				
+				if(flashVars[FV_RESULTS_GATEWAY] != null)
+				{
+					resultsGateway = flashVars[FV_RESULTS_GATEWAY];
+				}
+			}
 		}
 
 		private function loadTests() : void
