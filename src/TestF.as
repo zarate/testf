@@ -104,20 +104,29 @@ package
 
 		private function readFlashVars() : void
 		{
-			// First let's assign default values in case no FV are found
+			// Read the full explanation of what we do here in the wiki:
+			// https://github.com/zarate/testf/wiki/Flashvars
 			
+			// Most likely your IDE is highlihgting an error because
+			// it cannot find RESULTS_GATEWAY, right?
+			// Read how we preprocess the code in the wiki:
+			// https://github.com/zarate/testf/wiki/Building-from-sources
 			testsXml = DEFAULT_TESTS_XML;
 			resultsGateway = RESULTS_GATEWAY;
 			
-			// Now let's try a flashvars.conf object in the SD card application storage directory first,
-			// then regular FlashVars in case that fails.
-			
 			try
-			{			
-				const flashVarsFilePath : String = flash.filesystem.File.applicationStorageDirectory.nativePath + xa.System.getSeparator() + FLASH_VARS_FILENAME;
+			{	
+				var flashVarsFilePath : String = flash.filesystem.File.applicationStorageDirectory.nativePath + xa.System.getSeparator() + FLASH_VARS_FILENAME;
+				
+				if(!xa.File.isFile(flashVarsFilePath))
+				{
+					flashVarsFilePath = "/sdcard" + flashVarsFilePath;
+				}
 				
 				if(xa.File.isFile(flashVarsFilePath))
 				{
+					log("FlashVars file found: " + flashVarsFilePath);
+					
 					const fvLines : Array = xa.File.read(flashVarsFilePath).split("\n");
 					
 					for each(var line : String in fvLines)
